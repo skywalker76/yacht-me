@@ -1,0 +1,180 @@
+{
+    "metadata": {
+        "title": "YACHT~ME | Yacht and Boat Rentals - Riviera Sea Life",
+        "description": "Discover the luxury of the Adriatic Sea with our exclusive fleet of yachts, sailboats, and premium vessels."
+    },
+    "nav": {
+        "home": "Home",
+        "fleet": "Fleet",
+        "excursions": "Excursions",
+        "services": "Services",
+        "blog": "Blog",
+        "contact": "Contact"
+    },
+    "hero": {
+        "title": "The Luxury of the Sea",
+        "subtitle": "Discover the elegance of sailing with our exclusive fleet of yachts, sailboats, and premium vessels. From Marina di Rimini to infinity.",
+        "cta": "Explore the Fleet"
+    },
+    "features": {
+        "sectionTitle": "Why Choose Us",
+        "title": "Excellence in Rentals",
+        "premiumFleet": {
+            "title": "Premium Fleet",
+            "description": "Luxury vessels maintained in impeccable condition"
+        },
+        "safety": {
+            "title": "Guaranteed Safety",
+            "description": "Certified skippers and all safety equipment"
+        },
+        "experience": {
+            "title": "Unique Experience",
+            "description": "Personalized services to make every voyage memorable"
+        },
+        "team": {
+            "title": "Expert Team",
+            "description": "Professional staff available for every need"
+        }
+    },
+    "fleet": {
+        "sectionTitle": "Selected Vessels",
+        "title": "Our Fleet",
+        "guests": "guests",
+        "learnMore": "Learn More",
+        "perDay": "/day",
+        "types": {
+            "motor_yacht_20m": "Motor Yacht 20m",
+            "sailboat_14m": "Sailboat 14m",
+            "dinghy": "Dinghy",
+            "jetski": "Jet Ski"
+        }
+    },
+    "cta": {
+        "readyToSail": "Ready to Set Sail?",
+        "contactUs": "Contact us to book your exclusive experience. Our team is ready to create your perfect voyage.",
+        "bookExperience": "Book Your Experience"
+    },
+    "location": {
+        "sectionTitle": "Where We Are",
+        "title": "Marina di Rimini",
+        "description": "Located in the heart of the Romagna Riviera, our home port offers direct access to the crystal-clear waters of the Adriatic and the most fascinating destinations along the Italian coast."
+    },
+    "footer": {
+        "ctaTitle": "Ready for your adventure?",
+        "ctaSubtitle": "Book now your luxury sea experience",
+        "ctaButton": "Check Availability",
+        "brandDescription": "Discover the luxury of the Adriatic Sea with our exclusive fleet of yachts, sailboats, and premium vessels.",
+        "navigation": "Navigation",
+        "theFleet": "The Fleet",
+        "motorYacht": "Motor Yacht",
+        "sailboats": "Sailboats",
+        "dinghies": "Dinghies",
+        "jetskis": "Jet Skis",
+        "contacts": "Contacts",
+        "allRightsReserved": "All rights reserved",
+        "privacyPolicy": "Privacy Policy",
+        "termsConditions": "Terms and Conditions"
+    },
+    "services": {
+        "sectionTitle": "Beyond Rentals",
+        "title": "Our Services",
+        "subtitle": "Transform your day at sea into an unforgettable experience",
+        "requestInfo": "Request Info",
+        "specialIdea": "Have a special idea?",
+        "specialIdeaText": "Contact us to create a fully customized experience.",
+        "talkTogether": "Let's Talk"
+    },
+    "contact": {
+        "sectionTitle": "Get in Touch",
+        "title": "Contact Us",
+        "subtitle": "We're here to answer all your questions and help you plan your perfect sea experience.",
+        "form": {
+            "name": "Full Name",
+            "email": "Email",
+            "phone": "Phone",
+            "service": "Service of Interest",
+            "selectService": "Select a service",
+            "boatRental": "Boat Rental",
+            "excursion": "Excursion",
+            "privateEvent": "Private Event",
+            "other": "Other",
+            "message": "Message",
+            "messagePlaceholder": "Tell us about your ideal experience...",
+            "send": "Send Message",
+            "sending": "Sending..."
+        },
+        "info": {
+            "title": "Information",
+            "visitUs": "Visit Us",
+            "callUs": "Call Us",
+            "writeUs": "Email Us",
+            "hours": "Hours"
+        },
+        "success": "Message sent successfully! We'll get back to you soon.",
+        "error": "Error sending message. Please try again."
+    },
+    "fleetPage": {
+        "sectionTitle": "Our Collection",
+        "title": "The Fleet",
+        "subtitle": "Choose from our luxury vessels for an unforgettable experience on the Romagna Riviera.",
+        "all": "All",
+        "noBoats": "No boats found for this category."
+    },
+    "blog": {
+        "sectionTitle": "Latest News",
+        "title": "Our Blog",
+        "subtitle": "Discover our excursions, travel tips, and updates from the nautical world",
+        "readMore": "Read More",
+        "backToBlog": "Back to Blog",
+        "categories": {
+            "all": "All",
+            "blog": "Blog",
+            "escursioni": "Excursions",
+            "news": "News",
+            "info": "Information"
+        },
+        "noArticles": "No articles found"
+    },
+    "article": {
+        "sidebar": {
+            "requestQuote": "Request Quote",
+            "personalized": "Personalized",
+            "forYourExperience": "for your experience",
+            "professionalSkipper": "Professional skipper",
+            "drinksIncluded": "Drinks included",
+            "snorkelingGear": "Snorkeling gear",
+            "freeCancellation": "Free cancellation",
+            "bookNow": "Book Now",
+            "otherExperiences": "Other Experiences"
+        },
+        "cta": {
+            "title": "Ready for an Unforgettable Experience?",
+            "subtitle": "Contact us to customize your adventure or discover other exclusive experiences",
+            "discoverMore": "Discover More Experiences",
+            "contactNow": "Contact Us Now"
+        },
+        "info": {
+            "duration": "Duration",
+            "fullDay": "Full Day",
+            "departure": "Departure",
+            "portRimini": "Port of Rimini",
+            "group": "Group",
+            "maxPeople": "Max 12 people",
+            "experience": "Experience",
+            "premium": "Premium"
+        }
+    },
+    "common": {
+        "loading": "Loading...",
+        "error": "Error",
+        "notFound": "Not Found",
+        "back": "Back",
+        "close": "Close",
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "edit": "Edit",
+        "create": "Create",
+        "search": "Search"
+    }
+}

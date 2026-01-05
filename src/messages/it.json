@@ -1,0 +1,180 @@
+{
+    "metadata": {
+        "title": "YACHT~ME | Noleggio Yacht e Barche - Riviera Sea Life",
+        "description": "Scopri il lusso del mare Adriatico con la nostra flotta esclusiva di yacht, barche a vela e imbarcazioni premium."
+    },
+    "nav": {
+        "home": "Home",
+        "fleet": "Flotta",
+        "excursions": "Escursioni",
+        "services": "Servizi",
+        "blog": "Blog",
+        "contact": "Contatti"
+    },
+    "hero": {
+        "title": "Il Lusso del Mare",
+        "subtitle": "Scopri l'eleganza della navigazione con la nostra esclusiva flotta di yacht, barche a vela e imbarcazioni premium. Da Marina di Rimini verso l'infinito.",
+        "cta": "Scopri la Flotta"
+    },
+    "features": {
+        "sectionTitle": "Perché Sceglierci",
+        "title": "L'Eccellenza del Noleggio",
+        "premiumFleet": {
+            "title": "Flotta Premium",
+            "description": "Imbarcazioni di lusso mantenute in condizioni impeccabili"
+        },
+        "safety": {
+            "title": "Sicurezza Garantita",
+            "description": "Skipper certificati e tutte le dotazioni di sicurezza"
+        },
+        "experience": {
+            "title": "Esperienza Unica",
+            "description": "Servizi personalizzati per rendere ogni viaggio memorabile"
+        },
+        "team": {
+            "title": "Team Esperto",
+            "description": "Staff professionale disponibile per ogni esigenza"
+        }
+    },
+    "fleet": {
+        "sectionTitle": "Imbarcazioni Selezionate",
+        "title": "La Nostra Flotta",
+        "guests": "ospiti",
+        "learnMore": "Scopri di più",
+        "perDay": "/giorno",
+        "types": {
+            "motor_yacht_20m": "Motor Yacht 20m",
+            "sailboat_14m": "Barca a Vela 14m",
+            "dinghy": "Gommone",
+            "jetski": "Moto d'Acqua"
+        }
+    },
+    "cta": {
+        "readyToSail": "Pronto a Salpare?",
+        "contactUs": "Contattaci per prenotare la tua esperienza esclusiva. Il nostro team è a disposizione per creare il viaggio perfetto.",
+        "bookExperience": "Prenota la Tua Esperienza"
+    },
+    "location": {
+        "sectionTitle": "Dove Siamo",
+        "title": "Marina di Rimini",
+        "description": "Situati nel cuore della Riviera Romagnola, il nostro porto base offre accesso diretto alle acque cristalline dell'Adriatico e alle destinazioni più affascinanti della costa italiana."
+    },
+    "footer": {
+        "ctaTitle": "Pronto per la tua avventura?",
+        "ctaSubtitle": "Prenota ora la tua esperienza di lusso in mare",
+        "ctaButton": "Richiedi Disponibilità",
+        "brandDescription": "Scopri il lusso del mare Adriatico con la nostra flotta esclusiva di yacht, barche a vela e imbarcazioni premium.",
+        "navigation": "Navigazione",
+        "theFleet": "La Flotta",
+        "motorYacht": "Motor Yacht",
+        "sailboats": "Barche a Vela",
+        "dinghies": "Gommoni",
+        "jetskis": "Moto d'Acqua",
+        "contacts": "Contatti",
+        "allRightsReserved": "Tutti i diritti riservati",
+        "privacyPolicy": "Privacy Policy",
+        "termsConditions": "Termini e Condizioni"
+    },
+    "services": {
+        "sectionTitle": "Oltre il Noleggio",
+        "title": "I Nostri Servizi",
+        "subtitle": "Trasforma la tua giornata in mare in un'esperienza indimenticabile",
+        "requestInfo": "Richiedi Info",
+        "specialIdea": "Hai un'idea speciale?",
+        "specialIdeaText": "Contattaci per creare un'esperienza completamente personalizzata.",
+        "talkTogether": "Parliamone Insieme"
+    },
+    "contact": {
+        "sectionTitle": "Parliamoci",
+        "title": "Contattaci",
+        "subtitle": "Siamo qui per rispondere a ogni tua domanda e aiutarti a pianificare la tua esperienza perfetta in mare.",
+        "form": {
+            "name": "Nome Completo",
+            "email": "Email",
+            "phone": "Telefono",
+            "service": "Servizio di Interesse",
+            "selectService": "Seleziona un servizio",
+            "boatRental": "Noleggio Imbarcazione",
+            "excursion": "Escursione",
+            "privateEvent": "Evento Privato",
+            "other": "Altro",
+            "message": "Messaggio",
+            "messagePlaceholder": "Raccontaci la tua esperienza ideale...",
+            "send": "Invia Messaggio",
+            "sending": "Invio in corso..."
+        },
+        "info": {
+            "title": "Informazioni",
+            "visitUs": "Vieni a Trovarci",
+            "callUs": "Chiamaci",
+            "writeUs": "Scrivici",
+            "hours": "Orari"
+        },
+        "success": "Messaggio inviato con successo! Ti risponderemo al più presto.",
+        "error": "Errore nell'invio del messaggio. Riprova."
+    },
+    "fleetPage": {
+        "sectionTitle": "La Nostra Collezione",
+        "title": "La Flotta",
+        "subtitle": "Scegli tra le nostre imbarcazioni di lusso per un'esperienza indimenticabile sulla Riviera Romagnola.",
+        "all": "Tutti",
+        "noBoats": "Nessuna imbarcazione trovata per questa categoria."
+    },
+    "blog": {
+        "sectionTitle": "Ultime Novità",
+        "title": "Il Nostro Blog",
+        "subtitle": "Scopri le nostre escursioni, consigli di viaggio e aggiornamenti dal mondo della nautica",
+        "readMore": "Leggi tutto",
+        "backToBlog": "Torna al Blog",
+        "categories": {
+            "all": "Tutti",
+            "blog": "Blog",
+            "escursioni": "Escursioni",
+            "news": "Novità",
+            "info": "Informazioni"
+        },
+        "noArticles": "Nessun articolo trovato"
+    },
+    "article": {
+        "sidebar": {
+            "requestQuote": "Richiedi Preventivo",
+            "personalized": "Personalizzato",
+            "forYourExperience": "per la tua esperienza",
+            "professionalSkipper": "Skipper professionista",
+            "drinksIncluded": "Bevande incluse",
+            "snorkelingGear": "Attrezzatura snorkeling",
+            "freeCancellation": "Cancellazione gratuita",
+            "bookNow": "Prenota Ora",
+            "otherExperiences": "Altre Esperienze"
+        },
+        "cta": {
+            "title": "Pronto per un'Esperienza Indimenticabile?",
+            "subtitle": "Contattaci per personalizzare la tua avventura o scopri le altre esperienze esclusive",
+            "discoverMore": "Scopri Altre Esperienze",
+            "contactNow": "Contattaci Ora"
+        },
+        "info": {
+            "duration": "Durata",
+            "fullDay": "Giornata Intera",
+            "departure": "Partenza",
+            "portRimini": "Porto Rimini",
+            "group": "Gruppo",
+            "maxPeople": "Max 12 persone",
+            "experience": "Esperienza",
+            "premium": "Premium"
+        }
+    },
+    "common": {
+        "loading": "Caricamento...",
+        "error": "Errore",
+        "notFound": "Non trovato",
+        "back": "Indietro",
+        "close": "Chiudi",
+        "save": "Salva",
+        "cancel": "Annulla",
+        "delete": "Elimina",
+        "edit": "Modifica",
+        "create": "Crea",
+        "search": "Cerca"
+    }
+}
