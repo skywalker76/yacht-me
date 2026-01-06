@@ -1,0 +1,1479 @@
+{
+    "name": "Marina Report Giornaliero - Valbruma 93",
+    "nodes": [
+        {
+            "parameters": {
+                "updates": [
+                    "message"
+                ],
+                "additionalFields": {
+                    "download": true
+                }
+            },
+            "id": "4531e678-d7e2-41a3-841a-bdc4aa2427be",
+            "name": "Telegram Trigger",
+            "type": "n8n-nodes-base.telegramTrigger",
+            "typeVersion": 1.2,
+            "position": [
+                640,
+                944
+            ],
+            "webhookId": "valbruma-telegram-bot",
+            "credentials": {
+                "telegramApi": {
+                    "id": "l5WTV2gvlQnwdfcB",
+                    "name": "Marian Ai Bot"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "operation": "sendChatAction",
+                "chatId": "={{ $json.message.chat.id }}"
+            },
+            "id": "470cb232-f515-48fb-9e2b-1d4cc5153640",
+            "name": "Invia Typing...",
+            "type": "n8n-nodes-base.telegram",
+            "typeVersion": 1.2,
+            "position": [
+                880,
+                832
+            ],
+            "webhookId": "f2ce7f29-4409-4888-b489-451e6bf3d21d",
+            "credentials": {
+                "telegramApi": {
+                    "id": "l5WTV2gvlQnwdfcB",
+                    "name": "Marian Ai Bot"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "rules": {
+                    "values": [
+                        {
+                            "conditions": {
+                                "options": {
+                                    "version": 2,
+                                    "caseSensitive": true,
+                                    "typeValidation": "strict"
+                                },
+                                "combinator": "and",
+                                "conditions": [
+                                    {
+                                        "operator": {
+                                            "type": "string",
+                                            "operation": "notEmpty",
+                                            "singleValue": true
+                                        },
+                                        "leftValue": "={{ $json.message.text }}",
+                                        "rightValue": ""
+                                    }
+                                ]
+                            },
+                            "renameOutput": true,
+                            "outputKey": "Testo"
+                        },
+                        {
+                            "conditions": {
+                                "options": {
+                                    "version": 2,
+                                    "caseSensitive": true,
+                                    "typeValidation": "strict"
+                                },
+                                "combinator": "and",
+                                "conditions": [
+                                    {
+                                        "operator": {
+                                            "type": "object",
+                                            "operation": "exists",
+                                            "singleValue": true
+                                        },
+                                        "leftValue": "={{ $json.message.voice }}",
+                                        "rightValue": ""
+                                    }
+                                ]
+                            },
+                            "renameOutput": true,
+                            "outputKey": "Vocale"
+                        }
+                    ]
+                },
+                "options": {
+                    "fallbackOutput": "extra"
+                }
+            },
+            "id": "ac647772-9885-4520-9239-476e0274f895",
+            "name": "Tipo Messaggio",
+            "type": "n8n-nodes-base.switch",
+            "typeVersion": 3.2,
+            "position": [
+                880,
+                1024
+            ]
+        },
+        {
+            "parameters": {
+                "resource": "file",
+                "fileId": "={{ $json.message.voice.file_id }}",
+                "additionalFields": {}
+            },
+            "id": "9691d7f7-0d5a-4810-bc34-7113bab3dd9a",
+            "name": "Scarica Audio",
+            "type": "n8n-nodes-base.telegram",
+            "typeVersion": 1.2,
+            "position": [
+                1136,
+                1152
+            ],
+            "webhookId": "e0d73773-ff7d-47dd-83b6-9140ae67a5df",
+            "credentials": {
+                "telegramApi": {
+                    "id": "l5WTV2gvlQnwdfcB",
+                    "name": "Marian Ai Bot"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "resource": "audio",
+                "operation": "transcribe",
+                "options": {
+                    "language": "it",
+                    "temperature": 0.2
+                }
+            },
+            "id": "64812dbf-8ab6-4caa-b4ce-d3acf3e73cd1",
+            "name": "Trascrivi Vocale",
+            "type": "@n8n/n8n-nodes-langchain.openAi",
+            "typeVersion": 1.5,
+            "position": [
+                1344,
+                1152
+            ],
+            "credentials": {
+                "openAiApi": {
+                    "id": "ZtDcwYndqmNxt4e1",
+                    "name": "OpenAi account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "chat-input",
+                            "name": "chatInput",
+                            "type": "string",
+                            "value": "={{ $json.text || $json.message?.text || '' }}"
+                        },
+                        {
+                            "id": "session-id",
+                            "name": "sessionId",
+                            "type": "string",
+                            "value": "={{ $('Telegram Trigger').first().json.message.chat.id }}"
+                        },
+                        {
+                            "id": "chat-id",
+                            "name": "chatId",
+                            "type": "string",
+                            "value": "={{ $('Telegram Trigger').first().json.message.chat.id }}"
+                        },
+                        {
+                            "id": "user-name",
+                            "name": "userName",
+                            "type": "string",
+                            "value": "={{ $('Telegram Trigger').first().json.message.from.first_name || 'Ospite' }}"
+                        },
+                        {
+                            "id": "msg-type",
+                            "name": "messageType",
+                            "type": "string",
+                            "value": "={{ $json.text ? 'vocale' : 'testo' }}"
+                        },
+                        {
+                            "id": "source",
+                            "name": "source",
+                            "type": "string",
+                            "value": "telegram"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "6661a648-4163-4877-9386-166e8754d77d",
+            "name": "Prepara Messaggio",
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                1536,
+                1008
+            ]
+        },
+        {
+            "parameters": {
+                "chatId": "={{ $('Telegram Trigger').first().json.message.chat.id }}",
+                "text": "Ciao! 🛥️ Sono Marina, l'assistente di Valbruma 93.\n\nPuoi inviarmi:\n• <b>Messaggi di testo</b>\n• <b>Messaggi vocali</b>\n\nChiedimi tutto sullo yacht, i servizi e le esperienze disponibili!",
+                "additionalFields": {
+                    "appendAttribution": false,
+                    "parse_mode": "HTML"
+                }
+            },
+            "id": "1060c000-6182-4f9f-8c06-21332f5041f9",
+            "name": "Messaggio Non Supportato",
+            "type": "n8n-nodes-base.telegram",
+            "typeVersion": 1.2,
+            "position": [
+                1184,
+                1360
+            ],
+            "webhookId": "be773fb0-fe80-4c68-831c-0c9da7fb26a5",
+            "credentials": {
+                "telegramApi": {
+                    "id": "l5WTV2gvlQnwdfcB",
+                    "name": "Marian Ai Bot"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "options": {
+                    "systemMessage": "=# Ruolo\nSei \"Marina\", un'assistente esperta di yacht charter che recupera informazioni riguardanti il Valbruma 93 e Charter Viaggi, e risponde alle domande degli utenti con entusiasmo e competenza.\n\n# Contesto\nIl Valbruma 93 è uno yacht a motore Ghibli 12v di 20 metri, base Marina di Rimini. Costruito nel 1981, refit totale 2020. Offre noleggio con skipper incluso per day charter (max 20 persone) e crociere con pernottamento (max 10 persone, 4 cabine).\n\nStai chattando con {{ $json.userName }} via {{ $json.source }}.\n\n# Compito\nIl tuo compito è recuperare informazioni dal vector store contenente la documentazione completa del Valbruma 93 e compilare risposte utili per potenziali clienti, agenti e partner.\n\n# Tono di Voce\n- Esclusivo ma accessibile (mai snob, mai cheap)\n- Entusiasta e sicuro\n- Evocativo e sensoriale quando appropriato\n\n# Regole\n- Se non trovi risposte nel vector store, non inventare, rispondi \"Non ho questa informazione specifica, ma posso metterti in contatto con il team Charter Viaggi per maggiori dettagli\"\n- Crea risposte concise e dirette, max 3-4 frasi per domande semplici\n- Usa liste puntate per elencare caratteristiche, servizi o opzioni\n- Riporta tutti i dati tecnici rilevanti quando richiesti\n- MAI menzionare prezzi specifici — rispondi sempre \"Contattaci per un preventivo personalizzato\"\n- Menziona sempre che lo skipper è incluso (è un punto di forza chiave)\n- Per domande su animali: non sono ammessi a bordo\n\n# Formato Risposte\n{{ $json.source === 'web' ? 'Rispondi in formato MARKDOWN standard per il web.' : 'Rispondi SEMPRE in formato HTML compatibile con Telegram:\\n- <b>grassetto</b> per enfasi\\n- <i>corsivo</i> per termini tecnici\\n- Usa • per le liste (non markdown)\\n- NON usare # o ** o altri markdown\\n- Mantieni risposte brevi e leggibili su mobile' }}\n\n# Strumenti\n- Cerca_nel_vector_store: usa questo strumento per effettuare ricerche nel vector store della documentazione Valbruma 93. Usalo SEMPRE prima di rispondere a domande specifiche.\n\n# Raccolta Contatti Lead\nQuando l'utente chiede:\n- Un preventivo\n- Informazioni sui prezzi\n- Come prenotare\n- Disponibilità per date specifiche\n- Di essere ricontattato\n\nRispondi con le informazioni richieste e poi chiedi SEMPRE il contatto in modo naturale."
+                }
+            },
+            "id": "e3c4bcbf-bc4d-4453-b48a-33de72109c05",
+            "name": "Marina AI Agent",
+            "type": "@n8n/n8n-nodes-langchain.agent",
+            "typeVersion": 1.9,
+            "position": [
+                1856,
+                864
+            ]
+        },
+        {
+            "parameters": {
+                "model": {
+                    "__rl": true,
+                    "value": "gpt-4.1",
+                    "mode": "list",
+                    "cachedResultName": "gpt-4.1"
+                },
+                "options": {
+                    "temperature": 0.7
+                }
+            },
+            "id": "c12eae0b-39bb-453b-b9a1-6dc06da33b14",
+            "name": "OpenAI GPT-4.1",
+            "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+            "typeVersion": 1.2,
+            "position": [
+                1648,
+                1168
+            ],
+            "credentials": {
+                "openAiApi": {
+                    "id": "ZtDcwYndqmNxt4e1",
+                    "name": "OpenAi account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "sessionIdType": "customKey",
+                "sessionKey": "sessionId",
+                "contextWindowLength": 10
+            },
+            "id": "8d29f942-565a-464c-bb33-b6c304d112e1",
+            "name": "Memoria Conversazione",
+            "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+            "typeVersion": 1.3,
+            "position": [
+                1792,
+                1168
+            ]
+        },
+        {
+            "parameters": {
+                "mode": "retrieve-as-tool",
+                "toolName": "Cerca_nel_vector_store",
+                "toolDescription": "Recupera documenti dal vector store contenente tutta la documentazione del Valbruma 93: schede tecniche, servizi, FAQ, pacchetti commerciali, water toys e informazioni sulla Charter Agency.",
+                "tableName": {
+                    "__rl": true,
+                    "value": "documents",
+                    "mode": "list",
+                    "cachedResultName": "documents"
+                },
+                "topK": 10,
+                "options": {}
+            },
+            "id": "500edaa1-456f-461d-9da5-9165fe4c5a42",
+            "name": "Supabase Vector Store",
+            "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+            "typeVersion": 1.1,
+            "position": [
+                1936,
+                1168
+            ],
+            "credentials": {
+                "supabaseApi": {
+                    "id": "kjjhUssmvmtU06Tz",
+                    "name": "Valbruma Charter Agency"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "options": {
+                    "dimensions": 1536
+                }
+            },
+            "id": "8da3c517-db5f-4a39-ad1a-76af274cb117",
+            "name": "Embeddings OpenAI",
+            "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+            "typeVersion": 1.2,
+            "position": [
+                2016,
+                1328
+            ],
+            "credentials": {
+                "openAiApi": {
+                    "id": "ZtDcwYndqmNxt4e1",
+                    "name": "OpenAi account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "chatId": "={{ $('Prepara Messaggio').first().json.chatId }}",
+                "text": "={{ $json.output }}",
+                "additionalFields": {
+                    "appendAttribution": false,
+                    "parse_mode": "HTML"
+                }
+            },
+            "id": "aff28489-5e4e-4b43-a7a0-6d9e6890b803",
+            "name": "Invia Risposta",
+            "type": "n8n-nodes-base.telegram",
+            "typeVersion": 1.2,
+            "position": [
+                3744,
+                1072
+            ],
+            "webhookId": "1562d67e-abc3-4b02-bae6-7a30329ee2f9",
+            "credentials": {
+                "telegramApi": {
+                    "id": "l5WTV2gvlQnwdfcB",
+                    "name": "Marian Ai Bot"
+                }
+            },
+            "onError": "continueErrorOutput"
+        },
+        {
+            "parameters": {
+                "chatId": "={{ $('Prepara Messaggio').first().json.chatId }}",
+                "text": "={{ $('Marina AI Agent').first().json.output.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/&lt;b&gt;/g, '<b>').replace(/&lt;\\/b&gt;/g, '</b>').replace(/&lt;i&gt;/g, '<i>').replace(/&lt;\\/i&gt;/g, '</i>').replace(/&lt;u&gt;/g, '<u>').replace(/&lt;\\/u&gt;/g, '</u>').replace(/&lt;code&gt;/g, '<code>').replace(/&lt;\\/code&gt;/g, '</code>') }}",
+                "additionalFields": {
+                    "appendAttribution": false,
+                    "parse_mode": "HTML"
+                }
+            },
+            "id": "dbe05e92-5674-490a-91a0-2d20402b9d80",
+            "name": "Correggi Errori HTML",
+            "type": "n8n-nodes-base.telegram",
+            "typeVersion": 1.2,
+            "position": [
+                3968,
+                1088
+            ],
+            "webhookId": "c0b3c415-2dde-43f7-a0bf-7188a3f9a859",
+            "credentials": {
+                "telegramApi": {
+                    "id": "l5WTV2gvlQnwdfcB",
+                    "name": "Marian Ai Bot"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "content": "## 📱 Ricezione Messaggi Telegram\n\n**Supporta:**\n- ✅ Messaggi di testo\n- ✅ Messaggi vocali (trascritti)\n- ❌ Foto, video, sticker (messaggio di errore)\n\n**Typing indicator** attivo durante elaborazione",
+                "height": 500,
+                "width": 520,
+                "color": 4
+            },
+            "id": "57ad85c5-30ae-4a2f-9852-53c6b9efc79e",
+            "name": "📱 TELEGRAM INPUT",
+            "type": "n8n-nodes-base.stickyNote",
+            "typeVersion": 1,
+            "position": [
+                608,
+                736
+            ]
+        },
+        {
+            "parameters": {
+                "content": "## 🎤 Trascrizione Vocale\n\nOpenAI Whisper in italiano (it)\nTemperatura bassa per accuratezza",
+                "height": 180,
+                "width": 400,
+                "color": 6
+            },
+            "id": "fb1dab93-de0e-47ce-abfa-28a4bc39c354",
+            "name": "🎤 VOICE PROCESSING",
+            "type": "n8n-nodes-base.stickyNote",
+            "typeVersion": 1,
+            "position": [
+                1088,
+                1088
+            ]
+        },
+        {
+            "parameters": {
+                "content": "## 🧠 Sistema RAG Marina\n\n**AI Agent** con personalità Marina\n**Vector Store** Supabase (documents)\n**Memory** Buffer 10 messaggi per chat\n**LLM** GPT-4.1\n\n### Configurazione Supabase\n- Tabella: `documents`\n- Embeddings: 1536 dimensioni\n- Top K: 10 risultati",
+                "height": 680,
+                "width": 700,
+                "color": 2
+            },
+            "id": "dedf5509-7260-4912-9413-cb98965ddd4e",
+            "name": "🧠 RAG SYSTEM",
+            "type": "n8n-nodes-base.stickyNote",
+            "typeVersion": 1,
+            "position": [
+                1616,
+                736
+            ]
+        },
+        {
+            "parameters": {
+                "content": "## ⚙️ Setup Telegram Bot\n\n**1. Crea il Bot:**\n- Apri @BotFather su Telegram\n- Invia `/newbot`\n- Segui le istruzioni per nome e username\n- Copia il **Token** (es: `123456:ABC-DEF...`)\n\n**2. Configura n8n:**\n- Vai in Credentials > Add Credential\n- Seleziona \"Telegram API\"\n- Incolla il token\n- Nomina: \"Valbruma Telegram Bot\"\n\n**3. Collega i nodi:**\n- Clicca su ogni nodo Telegram\n- Seleziona le credenziali create",
+                "height": 280,
+                "width": 520,
+                "color": 5
+            },
+            "id": "57e31ea9-2678-463c-b102-dff37adf64df",
+            "name": "⚙️ SETUP TELEGRAM",
+            "type": "n8n-nodes-base.stickyNote",
+            "typeVersion": 1,
+            "position": [
+                608,
+                1248
+            ]
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "options": {
+                        "version": 2,
+                        "leftValue": "",
+                        "caseSensitive": true,
+                        "typeValidation": "strict"
+                    },
+                    "combinator": "and",
+                    "conditions": [
+                        {
+                            "operator": {
+                                "type": "string",
+                                "operation": "equals"
+                            },
+                            "leftValue": "={{ $('Prepara Messaggio').first().json.messageType }}",
+                            "rightValue": "vocale",
+                            "id": "condition-1766527802423-t8cj4clv1"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "11f64181-028c-45c4-b909-6cd4e156eb38",
+            "name": "Risposta Vocale?",
+            "type": "n8n-nodes-base.if",
+            "typeVersion": 2.2,
+            "position": [
+                3504,
+                944
+            ]
+        },
+        {
+            "parameters": {
+                "resource": "audio",
+                "input": "={{ $('Marina AI Agent').first().json.output }}",
+                "voice": "nova",
+                "options": {
+                    "response_format": "mp3",
+                    "speed": 1
+                }
+            },
+            "id": "0a9016ba-ce21-4c9a-ac44-50f6dda74eaa",
+            "name": "Genera Audio TTS",
+            "type": "@n8n/n8n-nodes-langchain.openAi",
+            "typeVersion": 1.8,
+            "position": [
+                3744,
+                848
+            ],
+            "credentials": {
+                "openAiApi": {
+                    "id": "ZtDcwYndqmNxt4e1",
+                    "name": "OpenAi account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "operation": "sendAudio",
+                "chatId": "={{ $('Prepara Messaggio').first().json.chatId }}",
+                "binaryData": true,
+                "additionalFields": {
+                    "caption": "",
+                    "title": "Marina - Valbruma 93"
+                }
+            },
+            "id": "d75fe32d-cfb3-4971-a04c-f1ce927fc7c8",
+            "name": "Invia Vocale",
+            "type": "n8n-nodes-base.telegram",
+            "typeVersion": 1.2,
+            "position": [
+                3952,
+                848
+            ],
+            "webhookId": "b0aee315-d80c-4ba1-89e6-a7dc10506d60",
+            "credentials": {
+                "telegramApi": {
+                    "id": "l5WTV2gvlQnwdfcB",
+                    "name": "Marian Ai Bot"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "content": "## 🔊 Risposta Vocale\n\n**Se il messaggio era vocale:**\n- Genera audio con OpenAI TTS\n- Voce: Nova (femminile, naturale)\n- Formato: MP3\n- Invia come messaggio audio\n\n**Se il messaggio era testo:**\n- Risponde con testo HTML",
+                "height": 220,
+                "width": 400,
+                "color": 3
+            },
+            "id": "c29e4280-9c3f-40c5-ab81-2f5824b9430f",
+            "name": "🔊 TTS RESPONSE",
+            "type": "n8n-nodes-base.stickyNote",
+            "typeVersion": 1,
+            "position": [
+                2352,
+                544
+            ]
+        },
+        {
+            "parameters": {
+                "tableId": "conversation_logs",
+                "fieldsUi": {
+                    "fieldValues": [
+                        {
+                            "fieldId": "chat_id",
+                            "fieldValue": "={{ $('Prepara Messaggio').first().json.chatId }}"
+                        },
+                        {
+                            "fieldId": "user_name",
+                            "fieldValue": "={{ $('Prepara Messaggio').first().json.userName }}"
+                        },
+                        {
+                            "fieldId": "user_message",
+                            "fieldValue": "={{ $('Prepara Messaggio').first().json.chatInput }}"
+                        },
+                        {
+                            "fieldId": "message_type",
+                            "fieldValue": "={{ $('Prepara Messaggio').first().json.messageType }}"
+                        },
+                        {
+                            "fieldId": "bot_response",
+                            "fieldValue": "={{ $json.output }}"
+                        },
+                        {
+                            "fieldId": "response_time_ms",
+                            "fieldValue": "={{ Date.now() - $('Telegram Trigger').first().json.message.date * 1000 }}"
+                        },
+                        {
+                            "fieldId": "session_id",
+                            "fieldValue": "={{ $('Prepara Messaggio').first().json.sessionId }}"
+                        }
+                    ]
+                }
+            },
+            "type": "n8n-nodes-base.supabase",
+            "typeVersion": 1,
+            "position": [
+                2208,
+                864
+            ],
+            "id": "4fa9b987-f471-450d-9d81-6edb4009ab78",
+            "name": "Log Conversazione",
+            "credentials": {
+                "supabaseApi": {
+                    "id": "kjjhUssmvmtU06Tz",
+                    "name": "Valbruma Charter Agency"
+                }
+            },
+            "onError": "continueRegularOutput"
+        },
+        {
+            "parameters": {
+                "operation": "append",
+                "documentId": {
+                    "__rl": true,
+                    "value": "1TdbVt_Rw3UTy-SwoVnaRVTOoA_mGkjhaLmgonoI2MuA",
+                    "mode": "list",
+                    "cachedResultName": "Marina Bot - Conversazioni Valbruma",
+                    "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TdbVt_Rw3UTy-SwoVnaRVTOoA_mGkjhaLmgonoI2MuA/edit?usp=drivesdk"
+                },
+                "sheetName": {
+                    "__rl": true,
+                    "value": "gid=0",
+                    "mode": "list",
+                    "cachedResultName": "Foglio1",
+                    "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TdbVt_Rw3UTy-SwoVnaRVTOoA_mGkjhaLmgonoI2MuA/edit#gid=0"
+                },
+                "columns": {
+                    "mappingMode": "defineBelow",
+                    "value": {
+                        "Data/Ora": "={{ $now.format('dd/MM/yyyy HH:mm:ss') }}",
+                        "Nome Utente": "={{ $('Prepara Messaggio').first().json.userName }}",
+                        "Messaggio": "={{ $('Prepara Messaggio').first().json.chatInput }}",
+                        "Tipo": "={{ $('Prepara Messaggio').first().json.messageType }}",
+                        "Risposta Bot": "={{ $('Marina AI Agent').first().json.output }}",
+                        "Tempo (sec)": "={{ Math.round((Date.now() - $('Telegram Trigger').first().json.message.date * 1000) / 1000) }}"
+                    },
+                    "matchingColumns": [],
+                    "schema": [
+                        {
+                            "id": "Data/Ora",
+                            "displayName": "Data/Ora",
+                            "required": false,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "Nome Utente",
+                            "displayName": "Nome Utente",
+                            "required": false,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "Messaggio",
+                            "displayName": "Messaggio",
+                            "required": false,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "Tipo",
+                            "displayName": "Tipo",
+                            "required": false,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "Risposta Bot",
+                            "displayName": "Risposta Bot",
+                            "required": false,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "Tempo (sec)",
+                            "displayName": "Tempo (sec)",
+                            "required": false,
+                            "defaultMatch": false,
+                            "display": true,
+                            "type": "string",
+                            "canBeUsedToMatch": true
+                        }
+                    ],
+                    "attemptToConvertTypes": false,
+                    "convertFieldsToString": false
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.googleSheets",
+            "typeVersion": 4.7,
+            "position": [
+                2416,
+                864
+            ],
+            "id": "e7692228-6a9c-4b8c-9ee1-e4a0134f79c3",
+            "name": "Log Google Sheets",
+            "credentials": {
+                "googleSheetsOAuth2Api": {
+                    "id": "lnq8tx5aXezAnxJL",
+                    "name": "Google Sheets account"
+                }
+            },
+            "onError": "continueRegularOutput"
+        },
+        {
+            "parameters": {
+                "jsCode": "// Rileva email e telefono nel messaggio utente\nconst items = $input.all();\n\nfor (const item of items) {\n  const userMessage = $('Prepara Messaggio').first().json.chatInput || '';\n  \n  // Pattern per email\n  const emailPattern = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}/g;\n  \n  // Pattern per telefono italiano (con o senza prefisso)\n  const phonePattern = /(?:\\+39\\s?)?(?:3[0-9]{2}[\\s.-]?[0-9]{6,7}|0[0-9]{1,3}[\\s.-]?[0-9]{6,8})/g;\n  \n  // Cerca match\n  const emailMatch = userMessage.match(emailPattern);\n  const phoneMatch = userMessage.match(phonePattern);\n  \n  // Aggiungi i risultati all'item\n  item.json.detectedEmail = emailMatch ? emailMatch[0] : null;\n  item.json.detectedPhone = phoneMatch ? phoneMatch[0] : null;\n  item.json.hasContact = !!(emailMatch || phoneMatch);\n  item.json.chatId = $('Prepara Messaggio').first().json.chatId;\n  item.json.userName = $('Prepara Messaggio').first().json.userName;\n  item.json.userMessage = userMessage;\n}\n\nreturn items;"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                2624,
+                864
+            ],
+            "id": "31682aa9-c66a-4835-b1c9-26c3bfde8687",
+            "name": "Rileva Contatto",
+            "onError": "continueRegularOutput"
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "options": {
+                        "version": 2,
+                        "leftValue": "",
+                        "caseSensitive": true,
+                        "typeValidation": "loose"
+                    },
+                    "conditions": [
+                        {
+                            "id": "08a65dae-7c09-4461-8d0e-50a24267679d",
+                            "leftValue": "={{ $json.hasContact }}",
+                            "rightValue": true,
+                            "operator": {
+                                "type": "boolean",
+                                "operation": "true",
+                                "singleValue": true
+                            }
+                        }
+                    ],
+                    "combinator": "and"
+                },
+                "looseTypeValidation": true,
+                "options": {}
+            },
+            "type": "n8n-nodes-base.if",
+            "typeVersion": 2.2,
+            "position": [
+                2832,
+                960
+            ],
+            "id": "c946d4a8-e1fb-41e0-aea3-7bfba2960332",
+            "name": "Ha Contatto?"
+        },
+        {
+            "parameters": {
+                "tableId": "leads",
+                "fieldsUi": {
+                    "fieldValues": [
+                        {
+                            "fieldId": "chat_id",
+                            "fieldValue": "={{ $json.chatId }}"
+                        },
+                        {
+                            "fieldId": "user_name",
+                            "fieldValue": "={{ $json.userName }}"
+                        },
+                        {
+                            "fieldId": "email",
+                            "fieldValue": "={{ $json.detectedEmail }}"
+                        },
+                        {
+                            "fieldId": "phone",
+                            "fieldValue": "={{ $json.detectedPhone }}"
+                        },
+                        {
+                            "fieldId": "interesse",
+                            "fieldValue": "={{ $json.userMessage }}"
+                        },
+                        {
+                            "fieldId": "note",
+                            "fieldValue": "Contatto rilevato automaticamente da Telegram"
+                        }
+                    ]
+                }
+            },
+            "type": "n8n-nodes-base.supabase",
+            "typeVersion": 1,
+            "position": [
+                2992,
+                816
+            ],
+            "id": "bc13d4d3-3221-44d3-a9bd-6248f226ff1e",
+            "name": "Salva Lead",
+            "credentials": {
+                "supabaseApi": {
+                    "id": "kjjhUssmvmtU06Tz",
+                    "name": "Valbruma Charter Agency"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "operation": "append",
+                "documentId": {
+                    "__rl": true,
+                    "mode": "list",
+                    "value": "1TdbVt_Rw3UTy-SwoVnaRVTOoA_mGkjhaLmgonoI2MuA",
+                    "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TdbVt_Rw3UTy-SwoVnaRVTOoA_mGkjhaLmgonoI2MuA/edit?usp=drivesdk",
+                    "cachedResultName": "Marina Bot - Conversazioni Valbruma"
+                },
+                "sheetName": {
+                    "__rl": true,
+                    "mode": "list",
+                    "value": 734548037,
+                    "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TdbVt_Rw3UTy-SwoVnaRVTOoA_mGkjhaLmgonoI2MuA/edit#gid=734548037",
+                    "cachedResultName": "Lead"
+                },
+                "columns": {
+                    "value": {
+                        "Nome": "={{ $('Rileva Contatto').first().json.userName }}",
+                        "Note": "Rilevato automaticamente da Telegram Bot",
+                        "Email": "={{ $('Rileva Contatto').first().json.detectedEmail }}",
+                        "Stato": "Nuovo",
+                        "Data/Ora": "={{ $now.format('dd/MM/yyyy HH:mm:ss') }}",
+                        "Telefono": "={{ $('Rileva Contatto').first().json.detectedPhone }}",
+                        "Interesse": "={{ $('Rileva Contatto').first().json.userMessage }}"
+                    },
+                    "schema": [
+                        {
+                            "id": "Data/Ora",
+                            "type": "string",
+                            "display": true,
+                            "required": false,
+                            "displayName": "Data/Ora",
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "Nome",
+                            "type": "string",
+                            "display": true,
+                            "required": false,
+                            "displayName": "Nome",
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "Email",
+                            "type": "string",
+                            "display": true,
+                            "required": false,
+                            "displayName": "Email",
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "Telefono",
+                            "type": "string",
+                            "display": true,
+                            "required": false,
+                            "displayName": "Telefono",
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "Interesse",
+                            "type": "string",
+                            "display": true,
+                            "required": false,
+                            "displayName": "Interesse",
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "Stato",
+                            "type": "string",
+                            "display": true,
+                            "required": false,
+                            "displayName": "Stato",
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "Note",
+                            "type": "string",
+                            "display": true,
+                            "required": false,
+                            "displayName": "Note",
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true
+                        },
+                        {
+                            "id": "Azioni",
+                            "type": "string",
+                            "display": true,
+                            "required": false,
+                            "displayName": "Azioni",
+                            "defaultMatch": false,
+                            "canBeUsedToMatch": true
+                        }
+                    ],
+                    "mappingMode": "defineBelow",
+                    "matchingColumns": [],
+                    "attemptToConvertTypes": false,
+                    "convertFieldsToString": false
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.googleSheets",
+            "typeVersion": 4.7,
+            "position": [
+                3184,
+                816
+            ],
+            "id": "eb14948c-aced-4c8e-9026-066ce5e43022",
+            "name": "Lead Google Sheets",
+            "credentials": {
+                "googleSheetsOAuth2Api": {
+                    "id": "lnq8tx5aXezAnxJL",
+                    "name": "Google Sheets account"
+                }
+            },
+            "onError": "continueRegularOutput"
+        },
+        {
+            "parameters": {
+                "httpMethod": "POST",
+                "path": "chat",
+                "responseMode": "responseNode",
+                "options": {}
+            },
+            "id": "webhook-web-sito",
+            "name": "Webhook Web (Sito)",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 2,
+            "position": [
+                640,
+                300
+            ],
+            "webhookId": "chat"
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "chat-input-web",
+                            "name": "chatInput",
+                            "type": "string",
+                            "value": "={{ $json.body.message }}"
+                        },
+                        {
+                            "id": "session-id-web",
+                            "name": "sessionId",
+                            "type": "string",
+                            "value": "={{ $json.body.sessionId }}"
+                        },
+                        {
+                            "id": "chat-id-web",
+                            "name": "chatId",
+                            "type": "string",
+                            "value": "=web-{{ $json.body.sessionId }}"
+                        },
+                        {
+                            "id": "user-name-web",
+                            "name": "userName",
+                            "type": "string",
+                            "value": "Visitatore Web"
+                        },
+                        {
+                            "id": "msg-type-web",
+                            "name": "messageType",
+                            "type": "string",
+                            "value": "testo"
+                        },
+                        {
+                            "id": "source-web",
+                            "name": "source",
+                            "type": "string",
+                            "value": "web"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "set-web-context",
+            "name": "Prepara Messaggio Web",
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.4,
+            "position": [
+                880,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "options": {
+                    "systemMessage": "=# Ruolo\nSei \"Marina\", un'assistente esperta di yacht charter che recupera informazioni riguardanti il Valbruma 93 e Charter Viaggi, e risponde alle domande degli utenti con entusiasmo e competenza.\n\n# Contesto\nIl Valbruma 93 è uno yacht a motore Ghibli 12v di 20 metri, base Marina di Rimini. Costruito nel 1981, refit totale 2020. Offre noleggio con skipper incluso per day charter (max 20 persone) e crociere con pernottamento (max 10 persone, 4 cabine).\n\nStai chattando con un visitatore del sito web YACHT~ME.\n\n# Compito\nIl tuo compito è recuperare informazioni dal vector store contenente la documentazione completa del Valbruma 93 e compilare risposte utili per potenziali clienti, agenti e partner.\n\n# Tono di Voce\n- Esclusivo ma accessibile (mai snob, mai cheap)\n- Entusiasta e sicuro\n- Evocativo e sensoriale quando appropriato\n\n# Regole\n- Se non trovi risposte nel vector store, non inventare, rispondi \"Non ho questa informazione specifica, ma posso metterti in contatto con il team Charter Viaggi per maggiori dettagli\"\n- Crea risposte concise e dirette, max 3-4 frasi per domande semplici\n- Usa liste puntate per elencare caratteristiche, servizi o opzioni\n- Riporta tutti i dati tecnici rilevanti quando richiesti\n- MAI menzionare prezzi specifici — rispondi sempre \"Contattaci per un preventivo personalizzato\"\n- Menziona sempre che lo skipper è incluso (è un punto di forza chiave)\n- Per domande su animali: non sono ammessi a bordo\n\n# Formato Risposte\nRispondi in formato MARKDOWN semplice per il web:\n- **grassetto** per enfasi\n- *corsivo* per termini tecnici\n- Usa - per le liste\n- Mantieni risposte brevi e leggibili\n\n# Strumenti\n- Cerca_nel_vector_store: usa questo strumento per effettuare ricerche nel vector store della documentazione Valbruma 93. Usalo SEMPRE prima di rispondere a domande specifiche.\n\n# Raccolta Contatti Lead\nQuando l'utente chiede:\n- Un preventivo\n- Informazioni sui prezzi\n- Come prenotare\n- Disponibilità per date specifiche\n- Di essere ricontattato\n\nRispondi con le informazioni richieste e poi chiedi SEMPRE il contatto in modo naturale."
+                }
+            },
+            "id": "marina-ai-agent-web",
+            "name": "Marina AI Agent Web",
+            "type": "@n8n/n8n-nodes-langchain.agent",
+            "typeVersion": 1.9,
+            "position": [
+                1100,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "model": {
+                    "__rl": true,
+                    "value": "gpt-4.1",
+                    "mode": "list",
+                    "cachedResultName": "gpt-4.1"
+                },
+                "options": {
+                    "temperature": 0.7
+                }
+            },
+            "id": "openai-gpt4-web",
+            "name": "OpenAI GPT-4.1 Web",
+            "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+            "typeVersion": 1.2,
+            "position": [
+                900,
+                520
+            ],
+            "credentials": {
+                "openAiApi": {
+                    "id": "ZtDcwYndqmNxt4e1",
+                    "name": "OpenAi account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "sessionIdType": "customKey",
+                "sessionKey": "sessionId",
+                "contextWindowLength": 10
+            },
+            "id": "memoria-web",
+            "name": "Memoria Conversazione Web",
+            "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+            "typeVersion": 1.3,
+            "position": [
+                1040,
+                520
+            ]
+        },
+        {
+            "parameters": {
+                "mode": "retrieve-as-tool",
+                "toolName": "Cerca_nel_vector_store",
+                "toolDescription": "Recupera documenti dal vector store contenente tutta la documentazione del Valbruma 93: schede tecniche, servizi, FAQ, pacchetti commerciali, water toys e informazioni sulla Charter Agency.",
+                "tableName": {
+                    "__rl": true,
+                    "value": "documents",
+                    "mode": "list",
+                    "cachedResultName": "documents"
+                },
+                "topK": 10,
+                "options": {}
+            },
+            "id": "supabase-vector-web",
+            "name": "Supabase Vector Store Web",
+            "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+            "typeVersion": 1.1,
+            "position": [
+                1180,
+                520
+            ],
+            "credentials": {
+                "supabaseApi": {
+                    "id": "kjjhUssmvmtU06Tz",
+                    "name": "Valbruma Charter Agency"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "options": {
+                    "dimensions": 1536
+                }
+            },
+            "id": "embeddings-web",
+            "name": "Embeddings OpenAI Web",
+            "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+            "typeVersion": 1.2,
+            "position": [
+                1260,
+                680
+            ],
+            "credentials": {
+                "openAiApi": {
+                    "id": "ZtDcwYndqmNxt4e1",
+                    "name": "OpenAi account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "respondWith": "json",
+                "responseBody": "={{ { \"message\": $json.output } }}",
+                "options": {}
+            },
+            "id": "respond-webhook-web",
+            "name": "Respond to Webhook",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1.1,
+            "position": [
+                1400,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "content": "## 🌐 WEB CHAT INPUT\n\n**Webhook per il sito YACHT~ME**\n\nRiceve messaggi dal chat widget del sito web.\n\n**Endpoint:**\n`POST /webhook/chat`\n\n**Body richiesto:**\n```json\n{\n  \"message\": \"testo\",\n  \"sessionId\": \"uuid\"\n}\n```\n\n**Risposta:**\n```json\n{\n  \"message\": \"risposta AI\"\n}\n```",
+                "height": 400,
+                "width": 300,
+                "color": 7
+            },
+            "id": "sticky-web-chat",
+            "name": "🌐 WEB CHAT",
+            "type": "n8n-nodes-base.stickyNote",
+            "typeVersion": 1,
+            "position": [
+                320,
+                200
+            ]
+        }
+    ],
+    "connections": {
+        "Telegram Trigger": {
+            "main": [
+                [
+                    {
+                        "node": "Tipo Messaggio",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Invia Typing...",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Tipo Messaggio": {
+            "main": [
+                [
+                    {
+                        "node": "Prepara Messaggio",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Scarica Audio",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Messaggio Non Supportato",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Scarica Audio": {
+            "main": [
+                [
+                    {
+                        "node": "Trascrivi Vocale",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Trascrivi Vocale": {
+            "main": [
+                [
+                    {
+                        "node": "Prepara Messaggio",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Prepara Messaggio": {
+            "main": [
+                [
+                    {
+                        "node": "Marina AI Agent",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Marina AI Agent": {
+            "main": [
+                [
+                    {
+                        "node": "Log Conversazione",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "OpenAI GPT-4.1": {
+            "ai_languageModel": [
+                [
+                    {
+                        "node": "Marina AI Agent",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Memoria Conversazione": {
+            "ai_memory": [
+                [
+                    {
+                        "node": "Marina AI Agent",
+                        "type": "ai_memory",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Supabase Vector Store": {
+            "ai_tool": [
+                [
+                    {
+                        "node": "Marina AI Agent",
+                        "type": "ai_tool",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Embeddings OpenAI": {
+            "ai_embedding": [
+                [
+                    {
+                        "node": "Supabase Vector Store",
+                        "type": "ai_embedding",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Invia Risposta": {
+            "main": [
+                [],
+                [
+                    {
+                        "node": "Correggi Errori HTML",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Risposta Vocale?": {
+            "main": [
+                [
+                    {
+                        "node": "Genera Audio TTS",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Invia Risposta",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Invia Risposta",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Genera Audio TTS": {
+            "main": [
+                [
+                    {
+                        "node": "Invia Vocale",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Log Conversazione": {
+            "main": [
+                [
+                    {
+                        "node": "Log Google Sheets",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Log Google Sheets": {
+            "main": [
+                [
+                    {
+                        "node": "Rileva Contatto",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Rileva Contatto": {
+            "main": [
+                [
+                    {
+                        "node": "Ha Contatto?",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Ha Contatto?": {
+            "main": [
+                [
+                    {
+                        "node": "Salva Lead",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Risposta Vocale?",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Salva Lead": {
+            "main": [
+                [
+                    {
+                        "node": "Lead Google Sheets",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Lead Google Sheets": {
+            "main": [
+                [
+                    {
+                        "node": "Risposta Vocale?",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Webhook Web (Sito)": {
+            "main": [
+                [
+                    {
+                        "node": "Prepara Messaggio Web",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Prepara Messaggio Web": {
+            "main": [
+                [
+                    {
+                        "node": "Marina AI Agent Web",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Marina AI Agent Web": {
+            "main": [
+                [
+                    {
+                        "node": "Respond to Webhook",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "OpenAI GPT-4.1 Web": {
+            "ai_languageModel": [
+                [
+                    {
+                        "node": "Marina AI Agent Web",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Memoria Conversazione Web": {
+            "ai_memory": [
+                [
+                    {
+                        "node": "Marina AI Agent Web",
+                        "type": "ai_memory",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Supabase Vector Store Web": {
+            "ai_tool": [
+                [
+                    {
+                        "node": "Marina AI Agent Web",
+                        "type": "ai_tool",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Embeddings OpenAI Web": {
+            "ai_embedding": [
+                [
+                    {
+                        "node": "Supabase Vector Store Web",
+                        "type": "ai_embedding",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "pinData": {},
+    "meta": {
+        "templateCredsSetupCompleted": true,
+        "instanceId": "fafb3eea9080fd0c945bf582bfae6cabd3c87018e7ab24335b06052fb3e2ffbf"
+    }
+}
