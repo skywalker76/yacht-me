@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { locales, type Locale } from '@/i18n/config';
 import { Navbar, Footer } from '@/components/luxury';
 import ChatWidget from '@/components/chat/ChatWidget';
+import { CookieBanner } from '@/components/CookieBanner';
 
 export function generateStaticParams() {
     return locales.map((locale) => ({ locale }));
@@ -35,6 +36,8 @@ export default async function LocaleLayout({
             <main>{children}</main>
             <Footer />
             <ChatWidget />
+            <CookieBanner />
         </NextIntlClientProvider>
     );
 }
+

@@ -176,5 +176,57 @@
         "edit": "Edit",
         "create": "Create",
         "search": "Search"
+    },
+    "privacy": {
+        "title": "Privacy Policy",
+        "lastUpdate": "Last updated",
+        "controller": "Data Controller",
+        "purposes": "Purpose of Processing",
+        "legalBasis": "Legal Basis",
+        "dataRetention": "Data Retention",
+        "rights": "Your Rights",
+        "contact": "Contact"
+    },
+    "cookie": {
+        "title": "Cookie Policy",
+        "whatAreCookies": "What are Cookies",
+        "cookiesUsed": "Cookies Used",
+        "manage": "How to Manage Cookies"
+    },
+    "terms": {
+        "title": "Terms and Conditions",
+        "acceptance": "Acceptance of Terms",
+        "services": "Description of Services",
+        "reservations": "Reservations and Payments",
+        "cancellation": "Cancellation Policy",
+        "liability": "Limitation of Liability",
+        "law": "Applicable Law"
+    },
+    "consent": {
+        "acceptPrivacy": "I have read and accept the",
+        "privacyPolicy": "Privacy Policy",
+        "required": "Consent is required to proceed"
+    },
+    "cookieBanner": {
+        "title": "This website uses cookies",
+        "description": "We use necessary technical cookies and third-party cookies to improve your experience. You can choose which cookies to accept.",
+        "acceptAll": "Accept All",
+        "rejectAll": "Reject All",
+        "customize": "Customize",
+        "save": "Save Preferences",
+        "necessary": "Necessary Cookies",
+        "necessaryDesc": "Essential for the website to function. Cannot be disabled.",
+        "analytics": "Analytics Cookies",
+        "analyticsDesc": "Help us understand how you use the site to improve it.",
+        "marketing": "Marketing Cookies",
+        "marketingDesc": "Used to show you relevant advertisements.",
+        "maps": "Maps and External Content",
+        "mapsDesc": "Allow displaying interactive maps and other external content."
+    },
+    "chat": {
+        "aiDisclaimer": "You're about to chat with Marina, an AI assistant.",
+        "aiDisclaimerDetail": "Messages are processed to provide you with assistance. By continuing, you accept our",
+        "startChat": "Start Chat",
+        "placeholder": "Type a message..."
     }
 }

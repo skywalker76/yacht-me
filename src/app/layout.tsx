@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { CookieConsentProvider } from "@/contexts/CookieConsentContext";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -42,9 +43,12 @@ export default function RootLayout({
     <html lang="it" className="scroll-smooth" suppressHydrationWarning>
       <body className={`${playfair.variable} ${inter.variable} antialiased`}>
         <ThemeProvider>
-          {children}
+          <CookieConsentProvider>
+            {children}
+          </CookieConsentProvider>
         </ThemeProvider>
       </body>
     </html>
   );
 }
+

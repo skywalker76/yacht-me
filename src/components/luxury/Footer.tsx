@@ -159,6 +159,9 @@ export function Footer() {
                             <Link href="/privacy" className="text-[var(--muted-foreground)] text-xs hover:text-[var(--gold-500)]">
                                 {t('privacyPolicy')}
                             </Link>
+                            <Link href="/cookie" className="text-[var(--muted-foreground)] text-xs hover:text-[var(--gold-500)]">
+                                Cookie Policy
+                            </Link>
                             <Link href="/terms" className="text-[var(--muted-foreground)] text-xs hover:text-[var(--gold-500)]">
                                 {t('termsConditions')}
                             </Link>

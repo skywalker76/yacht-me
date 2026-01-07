@@ -20,7 +20,7 @@ export default function ContactPage() {
     const [heroImage, setHeroImage] = useState(DEFAULT_CONTACT_IMAGE);
     const [contactInfo, setContactInfo] = useState<ContactInfo[]>([]);
     const [formData, setFormData] = useState({
-        name: '', email: '', phone: '', subject: '', message: '',
+        name: '', email: '', phone: '', subject: '', message: '', privacyConsent: false,
     });
 
     useEffect(() => {
@@ -66,7 +66,10 @@ export default function ContactPage() {
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+        const target = e.target;
+        const value = target.type === 'checkbox' ? (target as HTMLInputElement).checked : target.value;
+        const name = target.name;
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
 
     return (
@@ -148,6 +151,24 @@ export default function ContactPage() {
                                             className="w-full resize-none"
                                             placeholder={t('form.messagePlaceholder')}
                                         />
+                                    </div>
+                                    <div className="flex items-start gap-3">
+                                        <input
+                                            type="checkbox"
+                                            id="privacy-consent"
+                                            name="privacyConsent"
+                                            checked={formData.privacyConsent}
+                                            onChange={handleChange}
+                                            required
+                                            className="mt-1 w-4 h-4 accent-[var(--gold-500)] bg-[var(--navy-800)] border-[var(--border)] rounded"
+                                        />
+                                        <label htmlFor="privacy-consent" className="text-sm text-[var(--muted-foreground)]">
+                                            Ho letto e accetto la{' '}
+                                            <a href="/privacy" target="_blank" className="text-[var(--gold-500)] hover:underline">
+                                                Privacy Policy
+                                            </a>
+                                            {' '}*
+                                        </label>
                                     </div>
                                     <button type="submit" className="btn-gold">
                                         <Send className="w-4 h-4 mr-2" />

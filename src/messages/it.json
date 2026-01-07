@@ -176,5 +176,57 @@
         "edit": "Modifica",
         "create": "Crea",
         "search": "Cerca"
+    },
+    "privacy": {
+        "title": "Privacy Policy",
+        "lastUpdate": "Ultimo aggiornamento",
+        "controller": "Titolare del Trattamento",
+        "purposes": "Finalità del Trattamento",
+        "legalBasis": "Base Giuridica",
+        "dataRetention": "Conservazione dei Dati",
+        "rights": "I Tuoi Diritti",
+        "contact": "Contatti"
+    },
+    "cookie": {
+        "title": "Cookie Policy",
+        "whatAreCookies": "Cosa sono i Cookie",
+        "cookiesUsed": "Cookie Utilizzati",
+        "manage": "Come Gestire i Cookie"
+    },
+    "terms": {
+        "title": "Termini e Condizioni",
+        "acceptance": "Accettazione dei Termini",
+        "services": "Descrizione dei Servizi",
+        "reservations": "Prenotazioni e Pagamenti",
+        "cancellation": "Politica di Cancellazione",
+        "liability": "Limitazione di Responsabilità",
+        "law": "Legge Applicabile"
+    },
+    "consent": {
+        "acceptPrivacy": "Ho letto e accetto la",
+        "privacyPolicy": "Privacy Policy",
+        "required": "Il consenso è obbligatorio per procedere"
+    },
+    "cookieBanner": {
+        "title": "Questo sito utilizza i cookie",
+        "description": "Utilizziamo cookie tecnici necessari al funzionamento del sito e cookie di terze parti per migliorare la tua esperienza. Puoi scegliere quali cookie accettare.",
+        "acceptAll": "Accetta Tutti",
+        "rejectAll": "Rifiuta Tutti",
+        "customize": "Personalizza",
+        "save": "Salva Preferenze",
+        "necessary": "Cookie Necessari",
+        "necessaryDesc": "Essenziali per il funzionamento del sito. Non possono essere disabilitati.",
+        "analytics": "Cookie Analitici",
+        "analyticsDesc": "Ci aiutano a capire come utilizzi il sito per migliorarlo.",
+        "marketing": "Cookie di Marketing",
+        "marketingDesc": "Utilizzati per mostrarti annunci pertinenti.",
+        "maps": "Mappe e Contenuti Esterni",
+        "mapsDesc": "Permettono di visualizzare mappe interattive e altri contenuti esterni."
+    },
+    "chat": {
+        "aiDisclaimer": "Stai per chattare con Marina, un'assistente AI.",
+        "aiDisclaimerDetail": "I messaggi vengono elaborati per fornirti assistenza. Continuando accetti la nostra",
+        "startChat": "Inizia Chat",
+        "placeholder": "Scrivi un messaggio..."
     }
 }
